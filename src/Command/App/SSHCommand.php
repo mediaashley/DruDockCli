@@ -59,7 +59,7 @@ class SSHCommand extends Command {
     if ($key) {
       $keypath = $key;
     }else{
-      $keypath = './docker_' . $system_appname . '/config/php/drudock';
+      $keypath = './docker_' . $appname . '/config/php/authorized_keys';
     }
 
     $io->section("APP ::: SSH " . $appname);
@@ -68,8 +68,8 @@ class SSHCommand extends Command {
       $this->cfa = new ApplicationConfigExtension();
       $system_appname = strtolower(str_replace(' ', '', $appname));
       $ssh_port = $this->cfa->containerPort($system_appname,'php', '22');
-      if(!file_exists('./docker_' . $system_appname . '/config/php/drudock')){
-        $io->error('SSH key missing at `./docker_' . $system_appname . '/config/php/drudock` ');
+      if(!file_exists('./docker_' . $system_appname . '/config/php/authorized_keys')){
+        $io->error('SSH key missing at `./docker_' . $system_appname . '/config/php/authorized_keys` ');
       }
       $command = 'ssh -i '. $keypath . ' -tt root@' . $host . ' -p ' . $ssh_port . ' "cd /app/www ; bash"';
       $application->runcommand($command, $io, TRUE);
