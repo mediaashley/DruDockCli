@@ -54,19 +54,19 @@ class SSHCommand extends Command {
       $host = 'drudock.localhost';
     }
 
+    $system_appname = strtolower(str_replace(' ', '', $appname));
     $key = $input->getOption('key');
-    
+
     if ($key) {
       $keypath = $key;
     }else{
-      $keypath = './docker_' . $appname . '/config/php/authorized_keys';
+      $keypath = './docker_' . $system_appname . '/config/php/authorized_keys';
     }
 
-    $io->section("APP ::: SSH " . $appname);
+    $io->section("APP ::: SSH " . $system_appname);
 
     if ($container_application->checkForAppContainers($appname, $io)) {
       $this->cfa = new ApplicationConfigExtension();
-      $system_appname = strtolower(str_replace(' ', '', $appname));
       $ssh_port = $this->cfa->containerPort($system_appname,'php', '22');
       if(!file_exists('./docker_' . $system_appname . '/config/php/authorized_keys')){
         $io->error('SSH key missing at `./docker_' . $system_appname . '/config/php/authorized_keys` ');
