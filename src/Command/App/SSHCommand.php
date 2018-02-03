@@ -55,9 +55,7 @@ class SSHCommand extends Command {
     }
 
     $key = $input->getOption('key');
-
-    $io->section('PHP ::: drush ' . $cmd);
-
+    
     if ($key) {
       $keypath = $key;
     }else{
