@@ -36,6 +36,43 @@ class DrushConfigExportCommand extends Command {
         InputArgument::OPTIONAL,
         "A config directory label (i.e. a key in \$config_directories array in settings.php). Defaults to 'sync'"
       )
+      // @todo: 'add' may need special handling.
+      ->addOption(
+        'add',
+        'a',
+        InputOption::VALUE_OPTIONAL,
+        'Run `git add -p` after exporting. This lets you choose which config changes to sync for commit.'
+      )
+      ->addOption(
+        'commit',
+        'c',
+        InputOption::VALUE_OPTIONAL,
+        'Run `git add -A` and `git commit` after exporting.  This commits everything that was exported without prompting.'
+      )
+      ->addOption(
+        'message',
+        'm',
+        InputOption::VALUE_OPTIONAL,
+        'Commit comment for the exported configuration.  Optional; may only be used with --commit or --push.'
+      )
+      ->addOption(
+        'push',
+        'p',
+        InputOption::VALUE_OPTIONAL,
+        'Run `git push` after committing.  Implies --commit.'
+      )
+      ->addOption(
+        'remote',
+        'r',
+        InputOption::VALUE_OPTIONAL,
+        'Remote name.'
+      )
+      ->addOption(
+        'branch',
+        'b',
+        InputOption::VALUE_OPTIONAL,
+        'Branch name.'
+      )
       ->addOption(
         'destination',
         'd',
@@ -88,7 +125,7 @@ class DrushConfigExportCommand extends Command {
         $cmd = implode(' ', $cmd_options);
         break;
       case 'D7':
-          $io->error('This command is only available for D8');
+        $io->error('This command is only available for D8');
         break;
       default:
         $io->error('You\'re not currently in an Drupal APP directory');
